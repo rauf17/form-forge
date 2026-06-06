@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "FormForge",
+  "version": "1.0",
+  "version_name": "Ignition",
+  "description": "Fuzzy-matching autofill engine for Google Forms. Set your profile once, fill any form instantly.",
+  "permissions": ["storage", "contextMenus", "scripting", "activeTab"],
+  "host_permissions": ["https://docs.google.com/forms/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://docs.google.com/forms/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "128": "icon.png"
+  }
+}
