@@ -58,6 +58,7 @@
     return new Promise(resolve => {
       setTimeout(() => {
         const variants = toOrdinals(value);
+
         const options = document.querySelectorAll('[role="option"]');
         let matched = false;
         for (const opt of options) {
@@ -73,7 +74,7 @@
           document.body.click();
         }
         resolve(matched);
-      }, 150);
+      }, 50);
     });
   }
 
@@ -114,7 +115,9 @@
   async function fillTextInputs() {
     let filled = 0;
     const questions = document.querySelectorAll('[role="listitem"]');
+    const dropdownJobs = [];
 
+    // First pass: fill all text/textarea synchronously (instant, no await)
     for (const q of questions) {
       const labelEl = q.querySelector('.M7eMe') ||
                       q.querySelector('[class*="freebirdFormviewerComponentsQuestionBaseTitle"]') ||
@@ -127,26 +130,20 @@
 
       const value = userProfile[fieldKey];
 
-      // Short text
       const textInput = q.querySelector('input[type="text"]');
-      if (textInput) {
-        if (injectValue(textInput, value)) filled++;
-        continue;
-      }
+      if (textInput) { if (injectValue(textInput, value)) filled++; continue; }
 
-      // Paragraph / long text
       const textarea = q.querySelector('textarea');
-      if (textarea) {
-        if (injectValue(textarea, value)) filled++;
-        continue;
-      }
+      if (textarea) { if (injectValue(textarea, value)) filled++; continue; }
 
-      // Dropdown (select or Google custom listbox)
       const hasDropdown = q.querySelector('select, [role="listbox"], [role="combobox"]');
-      if (hasDropdown) {
-        const result = await injectDropdown(q, value);
-        if (result) filled++;
-      }
+      if (hasDropdown) dropdownJobs.push({ q, value });
+    }
+
+    // Second pass: run all dropdowns in parallel
+    if (dropdownJobs.length > 0) {
+      const results = await Promise.all(dropdownJobs.map(({ q, value }) => injectDropdown(q, value)));
+      filled += results.filter(Boolean).length;
     }
 
     return filled;
@@ -196,6 +193,9 @@
     if (Object.keys(userProfile).length === 0) return 0;
     let filled = 0;
     const questions = document.querySelectorAll('[role="listitem"]');
+    const dropdownJobs = [];
+
+    // Synchronous pass for text/textarea — instant
     for (const question of questions) {
       const labelEl = question.querySelector('.M7eMe') ||
                       question.querySelector('[class*="freebirdFormviewerComponentsQuestionBaseTitle"]') ||
@@ -212,13 +212,24 @@
         continue;
       }
 
-      // Dropdown
       const hasDropdown = question.querySelector('select, [role="listbox"], [role="combobox"]');
       if (hasDropdown && !filledInputs.has(hasDropdown)) {
-        const result = await injectDropdown(question, value);
-        if (result) { filledInputs.add(hasDropdown); filled++; }
+        dropdownJobs.push({ question, hasDropdown, value });
       }
     }
+
+    // Parallel pass for dropdowns
+    if (dropdownJobs.length > 0) {
+      const results = await Promise.all(
+        dropdownJobs.map(async ({ question, hasDropdown, value }) => {
+          const result = await injectDropdown(question, value);
+          if (result) filledInputs.add(hasDropdown);
+          return result;
+        })
+      );
+      filled += results.filter(Boolean).length;
+    }
+
     return filled;
   }
 
@@ -232,7 +243,7 @@
     debounceTimer = setTimeout(() => {
       fillCount = 0;
       safeFill();
-    }, 400);
+    }, 100);
   });
 
   const formContainer = document.querySelector('form');
