@@ -2,370 +2,265 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:          #0d0d14;
-      --surface:     #13131f;
-      --surface-2:   #1a1a2e;
-      --border:      #1f1f35;
-      --border-h:    #2a2a45;
-      --accent:      #00e5c0;
-      --accent-dim:  rgba(0,229,192,0.08);
-      --accent-glow: rgba(0,229,192,0.2);
-      --text:        #e2e8f0;
-      --text-2:      #94a3b8;
-      --text-3:      #475569;
-      --danger:      #ef4444;
-      --green:       #22c55e;
-      --r:           10px;
+      --bg:           #080b14;
+      --glass-1:      rgba(255,255,255,0.04);
+      --glass-2:      rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.09);
+      --glass-hover:  rgba(255,255,255,0.11);
+      --accent:       #00e5c0;
+      --accent-2:     #0ea5e9;
+      --accent-dim:   rgba(0,229,192,0.08);
+      --accent-glow:  rgba(0,229,192,0.18);
+      --text:         #f0f4ff;
+      --text-2:       #8b9cc8;
+      --text-3:       #3d4a6b;
+      --danger:       #f43f5e;
+      --r:            12px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      width: 340px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      overflow-x: hidden;
+      width: 360px; min-height: 500px;
+      background: var(--bg); color: var(--text);
+      font-family: 'Syne', sans-serif; font-size: 13px;
+      overflow-x: hidden; position: relative;
+    }
+    body::before {
+      content: ''; position: fixed; top: -80px; left: -60px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(0,229,192,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: ''; position: fixed; bottom: -80px; right: -40px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── HEADER ── */
+    /* HEADER */
     .header {
-      background: linear-gradient(135deg, #0d1a2e 0%, #0a0a18 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 16px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: relative; z-index: 10;
+      background: rgba(0,229,192,0.03);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 13px 16px 11px;
+      display: flex; align-items: center; justify-content: space-between;
+      backdrop-filter: blur(20px);
     }
-
     .brand { display: flex; align-items: center; gap: 10px; }
-
     .brand-icon {
-      width: 36px; height: 36px;
+      width: 34px; height: 34px;
       background: var(--accent-dim);
-      border: 1px solid rgba(0,229,192,0.2);
-      border-radius: 10px;
+      border: 1px solid rgba(0,229,192,0.25); border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 14px rgba(0,229,192,0.1);
     }
-    .brand-icon svg { width: 18px; height: 18px; }
-
-    .brand-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.3px;
-      line-height: 1;
-    }
+    .brand-icon svg { width: 16px; height: 16px; }
+    .brand-name { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; line-height: 1; }
     .brand-name span { color: var(--accent); }
-    .brand-sub {
-      font-size: 10px;
-      color: var(--text-3);
-      margin-top: 3px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
+    .brand-sub { font-size: 9.5px; color: var(--text-3); margin-top: 3px; font-family: 'DM Mono', monospace; letter-spacing: 0.3px; }
     .v-chip {
-      font-size: 9px;
-      font-weight: 700;
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid rgba(0,229,192,0.2);
-      border-radius: 5px;
-      padding: 3px 8px;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
+      font-size: 8px; font-weight: 700; color: var(--accent);
+      background: var(--accent-dim); border: 1px solid rgba(0,229,192,0.2);
+      border-radius: 5px; padding: 3px 8px;
+      font-family: 'DM Mono', monospace; letter-spacing: 1px;
     }
 
-    /* ── TABS ── */
+    /* TABS */
     .tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
+      display: flex; border-bottom: 1px solid var(--glass-border);
+      background: var(--glass-1); position: relative; z-index: 10;
     }
     .tab {
-      flex: 1;
-      padding: 9px 0;
-      text-align: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-3);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
+      flex: 1; padding: 9px 0; text-align: center;
+      font-size: 10.5px; font-weight: 700; color: var(--text-3);
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: all 0.2s; letter-spacing: 0.5px;
     }
     .tab:hover { color: var(--text-2); }
-    .tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      background: var(--accent-dim);
-    }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--accent-dim); }
 
-    /* ── PANELS ── */
-    .panel { display: none; padding: 14px 14px 10px; }
+    /* PANELS */
+    .panel { display: none; position: relative; z-index: 5; }
     .panel.active { display: block; }
 
-    /* ── SECTION LABEL ── */
-    .sec {
-      font-size: 9px;
-      font-weight: 700;
-      color: var(--text-3);
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      margin-top: 10px;
+    /* FILL PANEL */
+    #panel-fill { padding: 14px; }
+    .btn-fill {
+      width: 100%; padding: 11px;
+      background: linear-gradient(135deg, rgba(0,229,192,0.12), rgba(14,165,233,0.08));
+      border: 1px solid rgba(0,229,192,0.35); border-radius: var(--r);
+      color: var(--accent); font-family: 'Syne', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s; letter-spacing: 0.3px; margin-bottom: 14px;
+      backdrop-filter: blur(10px);
     }
-    .sec:first-child { margin-top: 0; }
+    .btn-fill:hover {
+      background: linear-gradient(135deg, rgba(0,229,192,0.18), rgba(14,165,233,0.12));
+      box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px);
+    }
+    .btn-fill:active { transform: scale(0.98); }
+    .btn-fill svg { width: 15px; height: 15px; }
 
-    /* ── INPUT FIELD ── */
-    .field { margin-bottom: 8px; }
+    .sec-label {
+      font-size: 9px; font-weight: 700; color: var(--text-3);
+      letter-spacing: 1.2px; text-transform: uppercase;
+      margin-bottom: 9px; margin-top: 4px;
+    }
+
+    /* PREVIEW GRID */
+    .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 13px; }
+    .preview-item {
+      background: var(--glass-1); border: 1px solid var(--glass-border);
+      border-radius: 10px; padding: 9px 11px;
+      backdrop-filter: blur(12px); transition: border-color 0.2s;
+    }
+    .preview-item:hover { border-color: var(--glass-hover); }
+    .preview-key {
+      font-size: 8.5px; color: var(--text-3); font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 3px;
+      font-family: 'DM Mono', monospace;
+    }
+    .preview-val { font-size: 11px; color: var(--text); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .preview-val.empty { color: var(--text-3); font-weight: 400; font-style: italic; }
+
+    /* COMPLETENESS */
+    .completeness { margin-bottom: 4px; }
+    .completeness-label {
+      display: flex; justify-content: space-between;
+      font-size: 9.5px; color: var(--text-3); font-weight: 600;
+      margin-bottom: 6px; letter-spacing: 0.3px;
+    }
+    .completeness-label span:last-child { color: var(--accent); font-family: 'DM Mono', monospace; }
+    .completeness-bar { height: 3px; background: var(--glass-2); border-radius: 99px; overflow: hidden; }
+    .completeness-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 99px;
+      transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* PROFILE PANEL — SIDEBAR */
+    #panel-profile { display: none; flex-direction: row; height: 420px; }
+    #panel-profile.active { display: flex; }
+
+    .profile-nav {
+      width: 72px; flex-shrink: 0;
+      background: var(--glass-1); border-right: 1px solid var(--glass-border);
+      display: flex; flex-direction: column; padding: 10px 0; gap: 2px;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 10px 6px; cursor: pointer;
+      transition: all 0.18s; border-left: 2px solid transparent;
+    }
+    .nav-item:hover { background: var(--glass-2); }
+    .nav-item.active { background: var(--accent-dim); border-left-color: var(--accent); }
+    .nav-item svg { width: 18px; height: 18px; stroke: var(--text-3); transition: stroke 0.18s; }
+    .nav-item.active svg { stroke: var(--accent); }
+    .nav-item:hover svg { stroke: var(--text-2); }
+    .nav-label {
+      font-size: 8px; font-weight: 700; letter-spacing: 0.5px;
+      color: var(--text-3); text-transform: uppercase; text-align: center; transition: color 0.18s;
+    }
+    .nav-item.active .nav-label { color: var(--accent); }
+    .nav-item:hover .nav-label { color: var(--text-2); }
+
+    .profile-content {
+      flex: 1; overflow-y: auto; padding: 14px 14px 10px;
+      scrollbar-width: thin; scrollbar-color: var(--glass-border) transparent;
+    }
+    .profile-content::-webkit-scrollbar { width: 4px; }
+    .profile-content::-webkit-scrollbar-track { background: transparent; }
+    .profile-content::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 99px; }
+
+    .cat-pane { display: none; }
+    .cat-pane.active { display: block; }
+    .cat-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 12px; letter-spacing: -0.3px; }
+    .cat-title span { color: var(--accent); }
+
+    /* FIELDS */
+    .field { margin-bottom: 10px; }
     .field label {
-      display: block;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-2);
-      margin-bottom: 4px;
-      letter-spacing: 0.2px;
+      display: block; font-size: 9.5px; font-weight: 700;
+      color: var(--text-2); margin-bottom: 5px; letter-spacing: 0.5px; text-transform: uppercase;
     }
     .field input, .field textarea {
-      width: 100%;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 7px 10px;
-      font-size: 12px;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      resize: none;
+      width: 100%; background: var(--glass-1);
+      border: 1px solid var(--glass-border); border-radius: 9px;
+      padding: 8px 11px; font-size: 12px; color: var(--text);
+      font-family: 'Syne', sans-serif; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      resize: none; backdrop-filter: blur(8px);
     }
     .field input:focus, .field textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-dim);
+      border-color: rgba(0,229,192,0.4);
+      box-shadow: 0 0 0 3px rgba(0,229,192,0.06);
+      background: var(--glass-2);
     }
-    .field input::placeholder, .field textarea::placeholder {
-      color: var(--text-3);
-    }
-    .field textarea { height: 60px; line-height: 1.5; }
+    .field input::placeholder, .field textarea::placeholder { color: var(--text-3); font-style: italic; }
+    .field textarea { height: 68px; line-height: 1.5; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 
-    /* ── FIELD ROW (2 cols) ── */
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-    /* ── SAVE BUTTON ── */
+    /* SAVE BUTTON */
     .btn-save {
-      width: 100%;
-      margin-top: 12px;
-      padding: 9px;
-      background: var(--accent);
-      border: none;
-      border-radius: var(--r);
-      color: #0a0a0a;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: filter 0.2s, transform 0.1s;
-      letter-spacing: 0.3px;
+      width: 100%; margin-top: 14px; padding: 10px;
+      background: var(--accent); border: none; border-radius: var(--r);
+      color: #050c0a; font-family: 'Syne', sans-serif;
+      font-size: 12px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      transition: all 0.2s; letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(0,229,192,0.2);
     }
-    .btn-save:hover { filter: brightness(1.1); }
+    .btn-save:hover { filter: brightness(1.08); box-shadow: 0 6px 28px rgba(0,229,192,0.3); transform: translateY(-1px); }
     .btn-save:active { transform: scale(0.98); }
     .btn-save svg { width: 13px; height: 13px; }
 
-    /* ── FILL BUTTON ── */
-    .btn-fill {
-      width: 100%;
-      padding: 10px;
-      background: var(--surface-2);
-      border: 1px solid var(--accent);
-      border-radius: var(--r);
-      color: var(--accent);
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
-      margin-bottom: 10px;
-    }
-    .btn-fill:hover {
-      background: var(--accent-dim);
-      box-shadow: 0 0 16px var(--accent-glow);
-    }
-    .btn-fill svg { width: 15px; height: 15px; }
-
-    /* ── STATUS CARD ── */
-    .status-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 12px 14px;
-      margin-bottom: 10px;
-    }
-    .status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .status-row:last-child { margin-bottom: 0; }
-    .status-label {
-      font-size: 10px;
-      color: var(--text-3);
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-    .status-val {
-      font-size: 11px;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text);
-    }
-    .status-val.good { color: var(--green); }
-    .status-val.warn { color: #f59e0b; }
-    .status-val.bad  { color: var(--danger); }
-
-    /* ── PROFILE PREVIEW ── */
-    .preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-    .preview-item {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-    .preview-key {
-      font-size: 9px;
-      color: var(--text-3);
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      margin-bottom: 3px;
-    }
-    .preview-val {
-      font-size: 11px;
-      color: var(--text);
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .preview-val.empty { color: var(--text-3); font-style: italic; }
-
-    /* ── HOW IT WORKS ── */
-    .how-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
+    /* GUIDE PANEL */
+    #panel-guide { padding: 14px; }
+    .how-item { display: flex; gap: 11px; align-items: flex-start; margin-bottom: 10px; }
     .how-num {
-      width: 20px; height: 20px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(0,229,192,0.2);
-      border-radius: 50%;
+      width: 22px; height: 22px; background: var(--accent-dim);
+      border: 1px solid rgba(0,229,192,0.2); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 9px;
-      font-weight: 800;
-      color: var(--accent);
-      flex-shrink: 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; font-weight: 800; color: var(--accent);
+      flex-shrink: 0; font-family: 'DM Mono', monospace;
     }
-    .how-text {
-      font-size: 11px;
-      color: var(--text-2);
-      line-height: 1.5;
+    .how-text { font-size: 11.5px; color: var(--text-2); line-height: 1.55; }
+    .how-text strong { color: var(--text); font-weight: 700; }
+    .kw-box {
+      background: var(--glass-1); border: 1px solid var(--glass-border);
+      border-radius: 10px; padding: 11px 13px; margin-bottom: 10px; backdrop-filter: blur(10px);
     }
-    .how-text strong { color: var(--text); font-weight: 600; }
+    .kw-box div { font-size: 10px; color: var(--text-3); line-height: 1.9; font-family: 'DM Mono', monospace; }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     .footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 14px 12px;
-      border-top: 1px solid var(--border);
+      padding: 8px 14px 11px; border-top: 1px solid var(--glass-border);
+      position: relative; z-index: 5; background: var(--glass-1);
     }
-    .footer-left {
-      font-size: 10px;
-      color: var(--text-3);
-    }
-    .footer-left a {
-      color: var(--text-2);
-      text-decoration: none;
-      font-weight: 600;
-    }
+    .footer-left { font-size: 10px; color: var(--text-3); }
+    .footer-left a { color: var(--text-2); text-decoration: none; font-weight: 700; }
     .footer-left a:hover { color: var(--accent); }
-    .hb { color: #e11d48; display: inline-block; animation: hb 1.6s infinite; }
+    .hb { color: #f43f5e; display: inline-block; animation: hb 1.6s infinite; }
     @keyframes hb { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
 
-    /* ── TOAST ── */
+    /* TOAST */
     .toast {
-      position: fixed;
-      bottom: 10px; left: 10px; right: 10px;
-      background: var(--surface-2);
-      border: 1px solid rgba(0,229,192,0.3);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 11px;
-      color: var(--accent);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transform: translateY(50px);
-      opacity: 0;
+      position: fixed; bottom: 10px; left: 10px; right: 10px;
+      background: rgba(19,22,38,0.92); border: 1px solid rgba(0,229,192,0.25);
+      border-radius: 9px; padding: 8px 13px; font-size: 11px; color: var(--accent);
+      font-weight: 700; display: flex; align-items: center; gap: 8px;
+      transform: translateY(50px); opacity: 0;
       transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-      z-index: 999;
+      z-index: 9999; backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
     .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.error { color: var(--danger); border-color: rgba(239,68,68,0.3); }
-
-    /* ── PROFILE COMPLETENESS BAR ── */
-    .completeness {
-      margin-bottom: 12px;
-    }
-    .completeness-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      color: var(--text-3);
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    .completeness-label span:last-child {
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .completeness-bar {
-      height: 4px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .completeness-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 99px;
-      transition: width 0.4s ease;
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
+    .toast.error { color: var(--danger); border-color: rgba(244,63,94,0.25); }
   </style>
 </head>
 <body>
@@ -381,7 +276,7 @@
       </div>
       <div>
         <div class="brand-name">Form<span>Forge</span></div>
-        <div class="brand-sub">autofill engine v1.0</div>
+        <div class="brand-sub">autofill engine v4.0</div>
       </div>
     </div>
     <div class="v-chip">IGNITION</div>
@@ -396,19 +291,15 @@
 
   <!-- FILL PANEL -->
   <div class="panel active" id="panel-fill">
-
-    <div style="margin-top:4px"></div>
-
+    <div style="height:4px"></div>
     <button class="btn-fill" id="btn-fill">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
       </svg>
       Autofill This Form
     </button>
-
-    <div class="sec">Profile Status</div>
+    <div class="sec-label">Profile Status</div>
     <div id="preview-grid" class="preview-grid"></div>
-
     <div class="completeness">
       <div class="completeness-label">
         <span>Profile Completeness</span>
@@ -418,137 +309,136 @@
         <div class="completeness-fill" id="completeness-fill" style="width:0%"></div>
       </div>
     </div>
-
   </div>
 
-  <!-- PROFILE PANEL -->
+  <!-- PROFILE PANEL — SIDEBAR -->
   <div class="panel" id="panel-profile">
+    <div class="profile-nav">
+      <div class="nav-item active" data-cat="personal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-label">Personal</span>
+      </div>
+      <div class="nav-item" data-cat="academic">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <span class="nav-label">Academic</span>
+      </div>
+      <div class="nav-item" data-cat="online">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span class="nav-label">Online</span>
+      </div>
+      <div class="nav-item" data-cat="bio">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        <span class="nav-label">Bio</span>
+      </div>
+    </div>
 
-    <div class="sec">Personal</div>
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="f-name" placeholder="e.g. Alex Johnson">
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="f-email" placeholder="your@email.com">
+    <div class="profile-content">
+      <!-- Personal -->
+      <div class="cat-pane active" id="cat-personal">
+        <div class="cat-title">Personal <span>Info</span></div>
+        <div class="field"><label>Full Name</label><input type="text" id="f-name" placeholder="e.g. XYZ"></div>
+        <div class="field"><label>Email</label><input type="email" id="f-email" placeholder="your@email.com"></div>
+        <div class="field"><label>Phone</label><input type="text" id="f-phone" placeholder="+92 3XX XXXXXXX"></div>
+        <div class="field"><label>City / Location</label><input type="text" id="f-city" placeholder="e.g. Islamabad, Pakistan"></div>
+        <button class="btn-save" data-cat-save="personal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Profile
+        </button>
       </div>
-      <div class="field">
-        <label>Phone</label>
-        <input type="text" id="f-phone" placeholder="+1 555 0000000">
-      </div>
-    </div>
-    <div class="field">
-      <label>City / Location</label>
-      <input type="text" id="f-city" placeholder="e.g. New York, USA">
-    </div>
 
-    <div class="sec">Academic</div>
-    <div class="field">
-      <label>University / Institute</label>
-      <input type="text" id="f-university" placeholder="e.g. MIT, Cambridge">
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Department</label>
-        <input type="text" id="f-department" placeholder="e.g. CS">
-      </div>
-      <div class="field">
-        <label>Program</label>
-        <input type="text" id="f-program" placeholder="e.g. BSCS">
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Roll Number</label>
-        <input type="text" id="f-rollno" placeholder="e.g. STU-2024-001">
-      </div>
-      <div class="field-row" style="grid-template-columns:1fr 1fr; gap:8px;">
-        <div class="field">
-          <label>Section</label>
-          <input type="text" id="f-section" placeholder="e.g. CS-4A">
+      <!-- Academic -->
+      <div class="cat-pane" id="cat-academic">
+        <div class="cat-title">Academic <span>Details</span></div>
+        <div class="field"><label>University / Institute</label><input type="text" id="f-university" placeholder="e.g. FAST-NUCES, Islamabad"></div>
+        <div class="field-row">
+          <div class="field"><label>Department</label><input type="text" id="f-department" placeholder="e.g. CS"></div>
+          <div class="field"><label>Program</label><input type="text" id="f-program" placeholder="e.g. BSCS"></div>
         </div>
-        <div class="field">
-          <label>Semester</label>
-          <input type="text" id="f-semester" placeholder="e.g. 6">
+        <div class="field"><label>Roll Number</label><input type="text" id="f-rollno" placeholder="e.g. 2X-XXXX"></div>
+        <div class="field-row">
+          <div class="field"><label>Section</label><input type="text" id="f-section" placeholder="e.g. CS-4A"></div>
+          <div class="field"><label>Semester</label><input type="text" id="f-semester" placeholder="e.g. 6"></div>
         </div>
+        <div class="field" style="max-width:120px"><label>CGPA</label><input type="text" id="f-cgpa" placeholder="e.g. 3.50"></div>
+        <button class="btn-save" data-cat-save="academic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Profile
+        </button>
+      </div>
+
+      <!-- Online -->
+      <div class="cat-pane" id="cat-online">
+        <div class="cat-title">Online <span>Presence</span></div>
+        <div class="field"><label>GitHub</label><input type="text" id="f-github" placeholder="https://github.com/username"></div>
+        <div class="field"><label>LinkedIn</label><input type="text" id="f-linkedin" placeholder="https://linkedin.com/in/username"></div>
+        <button class="btn-save" data-cat-save="online">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Profile
+        </button>
+      </div>
+
+      <!-- Bio -->
+      <div class="cat-pane" id="cat-bio">
+        <div class="cat-title">About <span>Me</span></div>
+        <div class="field"><label>Bio / About Yourself</label><textarea id="f-bio" placeholder="Short intro about yourself..." style="height:110px"></textarea></div>
+        <button class="btn-save" data-cat-save="bio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Profile
+        </button>
       </div>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>CGPA</label>
-        <input type="text" id="f-cgpa" placeholder="e.g. 3.50">
-      </div>
-      <div class="field" style="flex:1"></div>
-    </div>
-
-    <div class="sec">Online</div>
-    <div class="field">
-      <label>GitHub</label>
-      <input type="text" id="f-github" placeholder="https://github.com/username">
-    </div>
-    <div class="field">
-      <label>LinkedIn</label>
-      <input type="text" id="f-linkedin" placeholder="https://linkedin.com/in/username">
-    </div>
-
-    <div class="sec">Bio</div>
-    <div class="field">
-      <label>About Me / Bio</label>
-      <textarea id="f-bio" placeholder="Short intro about yourself..."></textarea>
-    </div>
-
-    <button class="btn-save" id="btn-save">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-      Save Profile
-    </button>
-
   </div>
 
   <!-- GUIDE PANEL -->
   <div class="panel" id="panel-guide">
-
-    <div class="sec" style="margin-top:4px">How It Works</div>
-
-    <div class="how-item">
-      <div class="how-num">1</div>
-      <div class="how-text"><strong>Set your profile once</strong> — fill in your details in the Profile tab. FormForge stores everything locally.</div>
-    </div>
-    <div class="how-item">
-      <div class="how-num">2</div>
-      <div class="how-text"><strong>Open any Google Form</strong> — FormForge auto-detects fields on page load and fills matching ones instantly.</div>
-    </div>
-    <div class="how-item">
-      <div class="how-num">3</div>
-      <div class="how-text"><strong>Manual insert</strong> — right-click any input field → <strong>FormForge → Insert</strong> to inject a specific field from your profile.</div>
-    </div>
-    <div class="how-item">
-      <div class="how-num">4</div>
-      <div class="how-text"><strong>Multi-page forms</strong> — FormForge watches for new questions and fills them automatically as pages load.</div>
-    </div>
-
-    <div class="sec">Matched Keywords</div>
-
-    <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-bottom:10px;">
-      <div style="font-size:10px; color:var(--text-3); line-height:1.8; font-family:'JetBrains Mono',monospace;">
-        name, full name, your name<br>
-        email, e-mail, mail<br>
-        phone, contact, mobile, whatsapp<br>
-        roll, reg, registration, student id<br>
-        university, institute, college<br>
-        department, dept, faculty<br>
-        program, degree<br>
-        section, batch, class<br>
-        semester, sem<br>
-        github, linkedin<br>
-        city, location, address<br>
-        bio, about, yourself
+    <div style="padding:14px">
+      <div class="sec-label" style="margin-top:4px">How It Works</div>
+      <div class="how-item">
+        <div class="how-num">1</div>
+        <div class="how-text"><strong>Set your profile once</strong> — fill in your details in the Profile tab. FormForge stores everything locally.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">2</div>
+        <div class="how-text"><strong>Open any Google Form</strong> — FormForge auto-detects fields on page load and fills matching ones instantly.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">3</div>
+        <div class="how-text"><strong>Manual insert</strong> — right-click any input → <strong>FormForge → Insert</strong> to inject a specific profile field.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">4</div>
+        <div class="how-text"><strong>Multi-page forms</strong> — FormForge watches for new questions and fills them automatically as pages load.</div>
+      </div>
+      <div class="sec-label" style="margin-top:14px">Matched Keywords</div>
+      <div class="kw-box">
+        <div>
+          name · full name · your name<br>
+          email · e-mail · mail<br>
+          phone · contact · mobile · whatsapp<br>
+          roll · reg · registration · student id<br>
+          university · institute · college<br>
+          department · dept · faculty<br>
+          program · degree<br>
+          section · batch · class<br>
+          semester · sem<br>
+          github · linkedin<br>
+          city · location · address<br>
+          bio · about · yourself
+        </div>
       </div>
     </div>
-
   </div>
 
   <!-- FOOTER -->
